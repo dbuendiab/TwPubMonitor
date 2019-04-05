@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PHP JD - Agenda{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+<style>
+    table { margin: auto; }
+</style>
+{% endblock %}
+
+
+{% block body %}
+
+<div class="example-wrapper">
+    <h1>Agenda publicación ✅</h1>
+
+    <p>Volcamos la agenda, que está en la máquina local.</p>
+
+    <table>
+        <tr>
+            {% for key,value in agenda[0] %}
+                <th>{{key|e }}</th>
+            {% endfor %}
+        </tr>
+
+        {% set contador = dia_semana - 1 %}
+        
+        {% for cat in agenda %}
+            <tr>
+                {% for cell in cat %}
+                    <td>{{ cell|raw }}</td>
+                {% endfor %}
+                {% set contador = contador + 1 %}
+            </tr>
+            
+            {% if contador == 7 %}
+                <tr>
+                    {% for key,value in agenda[0] %}
+                        <th>{{key|e }}</th>
+                    {% endfor %}
+                </tr>
+                {% set contador = 0 %}
+            {% endif %}
+        {% endfor %}
+    </table>
+    <!--<p>{#{ lotes }#}</p>-->
+</div>
+<div class="example-wrapper footer">
+    Esta plantilla es otra de las del controlador: <b>DBController</b>
+    <ul>
+        <li>El controlador está en <a href="{{ '/home/ubuntu/workspace/my-project/src/Controller/DBController.php'|file_link(0) }}">src/Controller/DBController.php</a></li>
+        <li>La plantilla está en <a href="{{ '/home/ubuntu/workspace/my-project/templates/db/agenda.html.twig'|file_link(0) }}">templates/db/agenda.html.twig</a></li>
+    </ul>
+</div>
+{% endblock %}

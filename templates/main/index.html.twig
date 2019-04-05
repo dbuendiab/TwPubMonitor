@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}JD PHP Symphony!{% endblock %}
+
+{% block body %}
+
+<div class="example-wrapper">
+    <h1>Proyecto gestión TwPub ✅</h1>
+
+    <p>Se trata de conseguir que una página muestre en vivo el estado actual de la publicación en Twitter y pueda reprogramarla en caso necesario.</p>
+    
+    <h2>Abrir máquina Clouding para acceso B.D.</h2>
+    <p>La base de datos está en la máquina Clouding, así que lo primero que hay que hacer es conseguir contactar vía MySQL con ella.</p>
+    <ul>
+        <li>Abro el firewall de la máquina Clouding para que acepte peticiones en el puerto 3306 de esta IP (actualmente 35.205.81.116, 
+        pero cabe la posibilidad de que cambie en otra ejecución). Es importante abrir el puerto sólo para la dirección IP de la máquina
+        que consulta, para no dejar el servidor MySQL expuesto al uso de cualquiera. Para buscar la IP actual basta abrir un Terminal
+        en la máquina Cloud9 (la que hará la consulta) y ejecutar:
+        <p class="code">curl https://checkip.amazonaws.com</p></li>
+        
+        <li>Lo siguiente es reconocer el usuario entrante en MySQL, dándole permisos de consulta en la base de datos quijote280. 
+        Los usuarios reconocidos pueden consultarse con una frase SQL:
+        <p class="code">select Host, User from mysql.user;</p>
+        y el comando para habilitar un nuevo usuario es este otro:
+        <p class="code">GRANT SELECT ON quijote280.* TO 'root'@'35.205.81.116' IDENTIFIED BY 'qs';</p></li>
+        
+        <li>Una vez hecho esto (vigilar que la dirección IP sea la correcta), lo siguiente es tratar de entrar desde la consola de 
+        la máquina de Cloud9:
+        <p class="code">mysql -h 46.183.119.46 -u root -p quijote280</p>
+        y una vez entro, probar a consultar las tablas, por ejemplo:
+        <p class="code">SHOW TABLES;</p></li>
+        
+        <li>La máquina Clouding tiene una IP fija 46.183.119.46, así que el comando para iniciar MySQL será:
+        <p class="code">mysql -h 46.183.119.46 -u root -p quijote280</p>
+        donde la contraseña será qs. De todos modos, no funciona, porque primero hay que habilitar en MySQL este usuario remoto.</li>
+    </ul>
+
+    <h2>Usar la base de datos desde Symphony</h2>
+    <p>Una vez establecida la conectividad, tenemos que programar el acceso a la base de datos. Tenemos un par de opciones, en principio:
+        <ul>
+            <li>Directamente usando PHP, con los objetos PDO_MySQL o MySQLi.</li>
+    </ul>
+    </p>
+
+</div>
+<div class="example-wrapper footer">
+    Esta plantilla es la del controlador: <b>{{ controller_name }}</b>
+    <ul>
+        <li>El controlador está en <p class="code"><a href="{{ '/home/ubuntu/workspace/my-project/src/Controller/MainController.php'|file_link(0) }}">src/Controller/MainController.php</a></p></li>
+        <li>La plantilla está en <p class="code"><a href="{{ '/home/ubuntu/workspace/my-project/templates/main/index.html.twig'|file_link(0) }}">templates/main/index.html.twig</a></p></li>
+    </ul>
+</div>
+{% endblock %}

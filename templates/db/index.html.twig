@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PHP JD - Último tuit{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+<style>
+    {% if sincronizado %}
+    .sincronizado { background-color: #bffade; }
+    {% else %}
+    .sincronizado { background-color: #f8c7c7; }
+    {% endif %}
+    table { margin: auto; }
+</style>
+{% endblock %}
+
+
+{% block body %}
+
+<div class="example-wrapper">
+    <h1>Último tuit enviado ✅</h1>
+
+    <p>Verificamos directamente contra la base de datos las últimas publicaciones realizada.</p>
+    <table>
+    <tr>
+        <th>id</th>
+        <th>fecha</th>
+        <th>num</th>
+        <th>lote</th>
+        <th>tuit</th>
+    </tr>
+    {% for tuit in tuits %}
+        <tr>
+            <td><a target="_blank" href="https://twitter.com/statuses/{{ tuit.ID }}">{{ tuit.ID }}</a></td>
+            <td>{{ tuit.FECHA }}</td>
+            <td>{{ tuit.NUM }}</td>
+            <td>{{ tuit.LOTE }}</td>
+            <td>{{ tuit.TUIT }}</td>
+            {% set lote_enviado = tuit.LOTE %}
+        </tr>
+    {% endfor %}
+    </table>
+
+    <p>Comprobamos en la máquina local cuál era el último lote procesado. Sólo con esto ya tenemos el contraste entre lo real y lo previsto: {# db_custom_url #}</p>
+    <table>
+    <tr>
+        <th>fecha</th>
+        <th>lote</th>
+        <th>hora_actual</th>
+    </tr>
+    {% for lote in ultimo_lote_agenda %}
+        <tr class="sincronizado">
+            <td>{{ lote.FECHA }}</td>
+            <td>{{ lote.LOTE }}</td>
+            <td>{{ lote.AHORA }}</td>
+            {% set lote_previsto = lote.LOTE %}
+        </tr>
+    {% endfor %}
+    </table>
+    <p>Nota: La hora de la máquina Cloud9 es (hoy) una hora menos. Cabe suponer que en abril, cuando cambie la hora, podamos tener discrepancias y 
+    haya que reajustar la query en <font style="color: blue">$sql_last_lote_agenda</font> (vía DATE_ADD()).</p>
+    <p>Nota 2: Trasladado a una máquina Clouding, que ya tiene la hora local. Mantengo la query con DATE_ADD() pero poniendo el INTERVAL=0, 
+    por si algún día hay que volver a ajustar el desfase horario</p>
+
+    <!--<p>{#{ lotes }#}</p>-->
+</div>
+<div class="example-wrapper footer">
+    Esta plantilla es la del controlador: <b>{{ controller_name }}</b>
+    <ul>
+        <li>El controlador está en <a href="{{ '/home/ubuntu/workspace/my-project/src/Controller/DBController.php'|file_link(0) }}">src/Controller/DBController.php</a></li>
+        <li>La plantilla está en <a href="{{ '/home/ubuntu/workspace/my-project/templates/db/index.html.twig'|file_link(0) }}">templates/db/index.html.twig</a></li>
+    </ul>
+</div>
+{% endblock %}

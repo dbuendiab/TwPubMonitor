@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}JD PHP Symphony!{% endblock %}
+
+{% block body %}
+
+<div class="example-wrapper">
+    <h1>Un segundo wrapper ✅</h1>
+
+    <p>Se trata de conseguir que una página muestre en vivo el estado actual de la publicación en Twitter y pueda reprogramarla en caso necesario.</p>
+    
+
+</div>
+<div class="example-wrapper footer">
+    Esta plantilla es la del controlador: <b>{{ parametro }}</b>
+    <ul>
+        <li>El controlador está en <p class="code"><a href="{{ '/home/ubuntu/workspace/my-project/src/Controller/MainController.php'|file_link(0) }}">src/Controller/MainController.php</a></p></li>
+        <li>La plantilla está en <p class="code"><a href="{{ '/home/ubuntu/workspace/my-project/templates/main/second.html.twig'|file_link(0) }}">templates/main/second.html.twig</a></p></li>
+    </ul>
+</div>
+{% endblock %}

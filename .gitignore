@@ -36,7 +36,20 @@
 
 src/Kernel.php
 src/*/.gitignore
-
+/.env
+/.env.test
+/bin/
+/composer.json
+/composer.lock
+/config/
+phpunit.xml.dist
+/public/
+/symfony.lock
+/tests/
+/translations/
+/var//tests/
+/translations/
+/var/
 
 
 
